@@ -31,3 +31,12 @@
     transform: rotate(360deg);
   }
 }
+.Barberpoles{
+  display: flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items: flex-start;
+  align-content:space-between;
+}
+

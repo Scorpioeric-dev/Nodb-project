@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import './App.css'
+import Header from './header'
+import axios from 'axios'
+import StyleCont from './styleCont'
+import Search from './search'
 
-function App() {
+
+class App extends Component {
+constructor(){
+  super()
+  this.state = {
+    uStyles:[],
+   
+  } 
+  this.removeStyle = this.removeStyle.bind(this)
+this.addStyle = this.addStyle.bind(this)
+}
+
+
+
+
+removeStyle(id){
+  axios.delete(`/api/styles/${id}`).then(res => {
+    this.setState({
+      uStyles: res.data})
+    })
+  }
+  
+  addStyle(body){
+    axios.post('/api/styles', {body}).then(res => {
+      console.log(res.data)
+    this.setState({uStyles: res.data})
+  })
+}
+
+
+
+  render(){
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <Search/>
+    
+    <StyleCont currentImg={this.state.currentImg} removeStyle={this.removeStyle} addStyle={this.addStyle}/>
+
+     
+     
+    
     </div>
   );
+  }
+
 }
 
 export default App;
