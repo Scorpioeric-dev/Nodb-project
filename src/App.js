@@ -28,7 +28,7 @@ removeStyle(id){
   }
   
   addStyle(body){
-    axios.post('/api/styles', {body}).then(res => {
+    axios.post('/api/styles', body).then(res => {
       console.log(res.data)
     this.setState({uStyles: res.data})
   })

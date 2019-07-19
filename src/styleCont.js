@@ -62,11 +62,11 @@ class styleCont extends Component {
         <Header getStyle={this.getStyles} />
         <input
           onChange={e => this.imgChange(e.target.value)}
-          placeholder="imagechange"
+          placeholder="addimage"
         />
         <input
           onChange={e => this.addStyle(e.target.value)}
-          placeholder="styleChange"
+          placeholder="styleName"
         />
         <input
           onChange={e => this.handleChange(e.target.value)}
@@ -74,7 +74,7 @@ class styleCont extends Component {
         />
         <img src={this.state.currentImg} alt="" />
         <button onClick = {() => this.props.removeStyle(this.state.filteredId)}>'_'</button>
-        <button onClick = {() => this.props.addStyle(this.state.styleInput)}>enter</button>
+        <button onClick = {() => this.props.addStyle({img:this.state.imgInput,name:this.state.styleInput})}>enter</button>
       </div>
     );
   }

@@ -23,6 +23,7 @@ module.exports = {
     res.status(200).send(uStyles)
   },
   addStyle(req, res){
+      console.log(req.body)
     data.push({...req.body,id})
       id++
       res.status(200).send(data)
