@@ -33,7 +33,7 @@ class App extends Component {
         });
       })
       .catch(function(error) {
-        error = "No get";
+        error = "NO GET";
         alert(error);
       });
   }
