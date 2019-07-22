@@ -1,47 +1,41 @@
-import React,{Component} from 'react'
-import axios from 'axios'
+import React, { Component } from "react";
+import axios from "axios";
+import Search from './search'
 
 
 
 class header extends Component {
-    constructor(props){
-        super(props)
-            this.state = {
-                newStyle:'',
-                userInput:''
-            
-            }
-        
-        
-        
-       
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      newStyle: "",
+      userInput: ""
+    };
+  }
 
-        handleChange(e){
-            this.setState({
-                userInput:e
-            })
-        }
+  handleChange(e) {
+    this.setState({
+      userInput: e
+    });
+  }
 
-    
-    render() { 
-    
-   return(
-        
-    
-        <div className='Barberpoles'>
-    <img src='https://image.shutterstock.com/image-vector/barber-pole-isolated-on-white-260nw-668798497.jpg'alt=''/>
-    <input onChange={(e)=>this.handleChange(e.target.value)}/>  
-    <h1>Tu Estilo</h1>
-    <button onClick={()=>this.props.getStyle(this.state.userInput)}>search</button>
-    <img src='https://image.shutterstock.com/image-vector/barber-pole-isolated-on-white-260nw-668798497.jpg'alt=''/>
-   </div>
-      
+  render() {
+    return (
+      <main>
+        <header className="Barberpoles">
+          <Search/>
+          <h1 id="header">Tu Estilo</h1>
+          <Search/>
+        </header>
+        <div className="searchbar">
+          <input onChange={e => this.handleChange(e.target.value)} size="20" placeholder='Hairstyle' />
+          <button onClick={() => this.props.getStyle(this.state.userInput)}>
+            search
+          </button>
+        </div>
+      </main>
+    );
+  }
+}
 
-)
-        }
-    
-    }   
-
-
- export default header
+export default header;

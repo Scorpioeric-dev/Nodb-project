@@ -2,49 +2,48 @@ import React, { Component } from "react";
 import axios from "axios";
 import search from "./search";
 import Header from "./header";
+import Flip from "react-reveal/Flip";
 
 class styleCont extends Component {
   constructor(props) {
     super(props);
     this.state = {
       uStyleArray: [],
-      currentImg:
-        "https://i.pinimg.com/originals/0a/8e/af/0a8eaf814cfda849b7b71c75f38fac96.jpg",
-      userInput: "",
-      imgInput: "",
-      styleInput: "",
+      currentImg: this.props.currentImg,
+      userInput: "", //search field
+      imgInput: "", //img input
+      styleInput: "", // specific style
       filteredStyle: [],
-      filteredId:0
+      filteredId: 0,
+      editing: false
     };
     this.getStyles = this.getStyles.bind(this);
-   
+    this.addStyleToArray = this.addStyleToArray.bind(this);
   }
-  componentDidMount() {
-    axios.get("/api/styles").then(res => {
-      this.setState({
-        uStyleArray: res.data
-      });
-    });
-  }
-  
 
   getStyles(userInput) {
-    let filteredStyle = this.state.uStyleArray.filter(ele => {
-      return ele.name.toLowerCase() === userInput.toLowerCase();
+    let filteredStyle = this.props.uStyles.filter(ele => {
+      return ele.name.toLowerCase().includes(userInput.toLowerCase());
     });
-    this.setState({
-      currentImg: filteredStyle[0].img,
-      filteredId:filteredStyle[0].id
-    });
-    console.log(userInput);
+    if (filteredStyle[0]) {
+      this.setState({
+        currentImg: filteredStyle[0].img,
+        filteredId: filteredStyle[0].id
+      });
+    } else {
+      alert("Does not Exist");
+    }
+    // console.log(userInput);
   }
   handleChange(e) {
     this.setState({
       userInput: e
     });
   }
-  
-  
+  toggleEdit() {
+    this.setState({ editing: !this.state.editing });
+  }
+
   imgChange(e) {
     this.setState({
       imgInput: e
@@ -55,27 +54,57 @@ class styleCont extends Component {
       styleInput: style
     });
   }
+
+  addStyleToArray() {
+    console.log();
+    this.props.addStyle({
+      name: this.state.styleInput,
+      img: this.state.imgInput
+    });
+  }
+  save() {
+    //need to pass in the id and body(obj:name,img)
+    if (this.state.styleInput === "" || this.state.imgInput === "") {
+      alert("Please enter text");
+    } else {
+      this.props.styleUpdate(this.state.filteredId, {
+        name: this.state.styleInput,
+        img: this.state.imgInput
+      });
+      this.toggleEdit();
+    }
+  }
+
   render() {
     // console.log(this.state)
     return (
-      <div>
+      <section>
         <Header getStyle={this.getStyles} />
         <input
           onChange={e => this.imgChange(e.target.value)}
-          placeholder="addimage"
+          placeholder="image"
         />
         <input
           onChange={e => this.addStyle(e.target.value)}
           placeholder="styleName"
         />
-        <input
-          onChange={e => this.handleChange(e.target.value)}
-          placeholder="search"
-        />
-        <img src={this.state.currentImg} alt="" />
-        <button onClick = {() => this.props.removeStyle(this.state.filteredId)}>'_'</button>
-        <button onClick = {() => this.props.addStyle({img:this.state.imgInput,name:this.state.styleInput})}>enter</button>
-      </div>
+        <button onClick={() => this.props.removeStyle(this.state.filteredId)}>
+          Delete
+        </button>
+        <button onClick={() => this.addStyleToArray()}>enter</button>
+
+        {this.state.editing ? (
+          <article>
+            <button onClick={() => this.save()}>save</button>
+            <button onClick={() => this.toggleEdit()}>cancel</button>
+          </article>
+        ) : (
+          <button onClick={() => this.toggleEdit()}>edit</button>
+        )}
+        <Flip right>
+          <img className="mainImg" src={this.state.currentImg} alt="" />
+        </Flip>
+      </section>
     );
   }
 }
