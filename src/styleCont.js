@@ -20,7 +20,7 @@ class styleCont extends Component {
     this.getStyles = this.getStyles.bind(this);
     this.addStyleToArray = this.addStyleToArray.bind(this);
   }
-
+//get Styles is a query
   getStyles(userInput) {
     let filteredStyle = this.props.uStyles.filter(ele => {
       return ele.name.toLowerCase().includes(userInput.toLowerCase());
@@ -56,7 +56,7 @@ class styleCont extends Component {
   }
 
   addStyleToArray() {
-    console.log();
+    // console.log();
     this.props.addStyle({
       name: this.state.styleInput,
       img: this.state.imgInput
@@ -91,6 +91,7 @@ class styleCont extends Component {
         <button onClick={() => this.props.removeStyle(this.state.filteredId)}>
           Delete
         </button>
+        
         <button onClick={() => this.addStyleToArray()}>enter</button>
 
         {this.state.editing ? (

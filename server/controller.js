@@ -1,10 +1,10 @@
-const data = require("./data");
-let id = data.length + 1;
-
 module.exports = {
-  getData(req, res) {
-    console.log("back connected");
-    res.status(200).send(data);
+  getData: async (req, res) => {
+    const db = req.app.get("db");
+    const { name, img } = req.query;
+    const uStyles = await db.get_Data([name, img]);
+    console.log(uStyles);
+    res.status(200).send(uStyles);
   },
   delete(req, res) {
     const { id } = req.params;
@@ -22,13 +22,15 @@ module.exports = {
     data[index].name = name;
     res.status(200).send(data);
   },
-  addStyle(req, res) {
+  addStyle: async (req, res) => {
     // console.log(req.body)
-    data.push({ ...req.body, id });
-    id++;
-    // console.log(data)
-    res.status(200).send(data);
+    const db = req.app.get("db");
+    const {id,name, img } = req.body;
+    const newStyle = await db.add_Style([id,name,img])
+    console.log(newStyle)
+    res.status(200).send(newStyle);
   }
+
 };
 
 //controller set up

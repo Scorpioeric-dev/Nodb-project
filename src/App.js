@@ -26,7 +26,7 @@ class App extends Component {
     axios
       .get("/api/styles")
       .then(res => {
-        console.log(res.data[res.data.length - 1].img);
+        // console.log(res.data[res.data.length - 1].img);
         this.setState({
           uStyles: res.data,
           currentImg: res.data[res.data.length - 1].img
